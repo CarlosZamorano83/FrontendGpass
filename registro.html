@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Resgistrar Usuario Jquery</title>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
+
+	
+
+</head>
+<body>
+
+
+<div>
+    <label for="name">Name</label>
+    <input type="text" id="name" />
+</div>
+<div>
+    <label for="mail">E-mail:</label>
+    <input type="email" id="mail" />
+</div>
+<div>
+    <label for="password">Password</label>
+    <textarea type="password" id="password"></textarea>
+</div>
+
+
+<button onclick="peticion();">Registrar Usuario </button>
+
+
+</body>
+
+	<script >
+
+
+        function peticion(){
+            var name = document.getElementById('name').value;
+            var email = document.getElementById('mail').value;
+            var password = document.getElementById('password').value;
+
+            $.ajax({
+
+                // la URL para la petición
+                url : "http://localhost:8888/prueba261118/public/index.php/api/user",
+             
+                // la información a enviar
+                // (también es posible utilizar una cadena de datos)
+
+                data : { name: name, password: password, email: email, rol_id: 2 },
+             
+                // especifica si será una petición POST o GET
+                type : 'POST',
+             
+                // el tipo de información que se espera de respuesta
+                dataType : 'json',
+             
+                // código a ejecutar si la petición es satisfactoria;
+                // la respuesta es pasada como argumento a la función
+                success : function(json) {
+                    
+                    console.log("Se ha creado el usario");
+
+                },
+
+                error : function(xhr, status){
+
+                    console.log("No se ha creado el usario"); // mensaje que salta en el navegador
+                },
+
+                complete : function(xhr, status){
+                    console.log("Peticion realizada");
+                }
+
+            });
+
+        }
+
+
+    // https://librosweb.es/libro/fundamentos_jquery/capitulo_7/metodos_ajax_de_jquery.html
+
+    </script>   
+
+
+</html>
+
