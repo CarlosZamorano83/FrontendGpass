@@ -1,39 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Resgistrar Usuario Jquery</title>
-	
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
 
-	
+    <meta charset="UTF-8">
 
+    <title>Registro Gpass</title>
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"> </script>
+    
+    <style>
+        *
+       
+
+
+        body
+        {
+            background-color: red;
+        }
+
+        
+
+
+    </style>
+    
 </head>
 <body>
+    <p id="error"></p>
 
+     <div id="form">
+        
+        <h1>Registro Gpass</h1>
 
-<div>
-    <label for="name">Name</label>
-    <input type="text" id="name" />
-</div>
-<div>
-    <label for="mail">E-mail:</label>
-    <input type="email" id="mail" />
-</div>
-<div>
-    <label for="password">Password</label>
-    <textarea type="password" id="password"></textarea>
-</div>
+        <table>
+            <tr>
+                <td>Name</td>
+                <td><input type="name" id="name"></td>
+            </tr>
+            <tr>
+                <td>Email</td>
+                <td><input type="email" id="mail"></td>
+            </tr>
+            <tr>
+                <td>Password</td>
+                <td><input type="password" id="password"></td>
+            </tr>
+            <tr><td>
+                <button onclick="peticion();"> Registrar </button>
+            </td>
+            </tr>
+        </table>
 
+    </div>
 
-<button onclick="peticion();">Registrar Usuario </button>
-
-
-</body>
-
-	<script >
+    <script>
 
 
         function peticion(){
+            
             var name = document.getElementById('name').value;
             var email = document.getElementById('mail').value;
             var password = document.getElementById('password').value;
@@ -41,45 +64,54 @@
             $.ajax({
 
                 // la URL para la petición
-                url : "http://localhost:8888/prueba261118/public/index.php/api/user",
+                url : "http://localhost:8888/Gpass/public/index.php/api/register",
+
+                
              
                 // la información a enviar
-                // (también es posible utilizar una cadena de datos)
-
-                data : { name: name, password: password, email: email, rol_id: 2 },
+             
+                data : {name: name, email: email, password: password},
              
                 // especifica si será una petición POST o GET
+
                 type : 'POST',
              
                 // el tipo de información que se espera de respuesta
+                
                 dataType : 'json',
              
                 // código a ejecutar si la petición es satisfactoria;
                 // la respuesta es pasada como argumento a la función
-                success : function(json) {
+
+
+
+                success : function(response) {
+                    console.log(response.data);
+                    sessionStorage.setItem("Authorization",response.data);
+                    console.log("Usuario Registrado");
+                    window.open("http://localhost:8888/FrontendGpass/login.html");
                     
-                    console.log("Se ha creado el usario");
 
                 },
 
-                error : function(xhr, status){
+                error : function(response){
 
-                    console.log("No se ha creado el usario"); // mensaje que salta en el navegador
+                    console.log(response.responseJSON.message);
+                    $('#error').text(response.responseJSON.message); // mensaje que salta en el navegador
                 },
 
-                complete : function(xhr, status){
-                    console.log("Peticion realizada");
-                }
+                // complete : function(xhr, status){
+                //     console.log("Peticion realizada");
+                // }
 
-            });
+                 });
+
+
+                
 
         }
-
-
-    // https://librosweb.es/libro/fundamentos_jquery/capitulo_7/metodos_ajax_de_jquery.html
 
     </script>   
 
 
 </html>
-
